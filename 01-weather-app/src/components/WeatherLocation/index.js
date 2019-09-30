@@ -1,30 +1,10 @@
 import React, { Component } from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import transformWeather from './../../services/transformWeather';
+import { api_weather } from '../../constants/api_url';
 import Location from './Location';
 import WeatherData from './WeatherData';
 import './styles.css';
-
-import {
-    CLOUD,
-    CLOUDY,
-    SUN,
-    RAIN,
-    SNOW,
-    WINDY,
-} from './../../constants/weathers';
-
-const data = {
-    temperature: 5,
-    weatherState: SUN,
-    humidity: 10,
-    wind: '10 m/s'
-}
-
-const data2 = {
-    temperature: 15,
-    weatherState: WINDY,
-    humidity: 30,
-    wind: '40 m/s'
-}
 
 class WeatherLocation extends Component {
 
@@ -32,17 +12,25 @@ class WeatherLocation extends Component {
         super();
         this.state = {
             city: 'Mexico City',
-            data
+            data: null
         };
     }
 
-    handleUpdateClick = () => {
-        console.log('actualizado');
+    componentDidMount() {
+        this.handleUpdateClick();
+    }
 
-        this.setState({
-            // city: 'Buenos Aires',
-            data: data2
-        });
+    handleUpdateClick = () => {
+        fetch( api_weather )
+            .then( resolve => resolve.json() )
+            .then( data => {
+                const newWeather = transformWeather(data);
+
+                this.setState({
+                    data: newWeather
+                })
+
+            } );
     }
 
     render() {
@@ -52,10 +40,10 @@ class WeatherLocation extends Component {
         return ( 
             <div className="weatherLocationCont">
                 <Location city={ city }></Location>
-                <WeatherData data={ data }></WeatherData>
-                <button onClick={ this.handleUpdateClick }>
-                    Update
-                </button>
+                { 
+                    data ? <WeatherData data={ data }></WeatherData>
+                    : <CircularProgress />
+                }
             </div>
         )
     }
