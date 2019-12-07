@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LocationList from './components/LocationList';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 import './App.css';
 
 const cities = [
