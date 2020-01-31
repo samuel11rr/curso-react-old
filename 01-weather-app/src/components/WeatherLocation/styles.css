@@ -4,11 +4,12 @@
     text-align: left;
     color: #888;
     line-height: 35px;
+    overflow: hidden;
 }
 
 .locationCont h1{
     margin: 0;
-
+    white-space: nowrap;
 }
 
 .weatherLocationCont{
@@ -19,7 +20,11 @@
 }
 
 .refresh{
-    height: 4em;
+    height: calc( 100% - 20px );
+    margin-left: 10px;
+    margin-right: 10px;
+    min-width: 350px;
+    box-sizing: border-box;
     width: 50%;
     margin: auto;
     cursor: pointer;
